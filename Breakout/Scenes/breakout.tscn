@@ -1,0 +1,562 @@
+[gd_scene load_steps=12 format=3 uid="uid://6mi0cj3se2ks"]
+
+[ext_resource type="PackedScene" uid="uid://bho2ejd5k61da" path="res://Scenes/paddle.tscn" id="1_1v3fy"]
+[ext_resource type="Script" path="res://Scripts/breakout.gd" id="1_nlifq"]
+[ext_resource type="PackedScene" uid="uid://34roxs0rgdfg" path="res://Scenes/ball.tscn" id="2_8vwrl"]
+[ext_resource type="Script" path="res://Scripts/Walls.gd" id="2_nwbum"]
+[ext_resource type="Script" path="res://Scripts/UI.gd" id="2_p7tcq"]
+[ext_resource type="PackedScene" uid="uid://jsuasljkxqoi" path="res://Scenes/yellow_brick.tscn" id="5_dbfmt"]
+[ext_resource type="PackedScene" uid="uid://bgve5ip4abwpj" path="res://Scenes/green_brick.tscn" id="7_4e6v6"]
+[ext_resource type="PackedScene" uid="uid://b14spxm8iknw0" path="res://Scenes/orange_brick.tscn" id="8_wwo1c"]
+[ext_resource type="PackedScene" uid="uid://cxlhv5kp8fbpi" path="res://Scenes/red_brick.tscn" id="9_xyypp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1psoy"]
+size = Vector2(1280, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dnmpl"]
+size = Vector2(1280, 54.25)
+
+[node name="Breakout" type="Node2D"]
+script = ExtResource("1_nlifq")
+
+[node name="UI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = -1
+script = ExtResource("2_p7tcq")
+
+[node name="Bg" type="ColorRect" parent="UI"]
+offset_top = -12.0
+offset_right = 1153.0
+offset_bottom = 649.0
+color = Color(0, 0, 0, 1)
+
+[node name="Lives" type="Label" parent="UI"]
+offset_left = 66.0
+offset_right = 129.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 40
+text = "x3"
+
+[node name="Score" type="Label" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_top = -12.0
+offset_right = -63.0
+offset_bottom = 58.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeathScreen" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="Bg" type="ColorRect" parent="DeathScreen"]
+offset_top = -11.0
+offset_right = 1153.0
+offset_bottom = 649.0
+color = Color(0.129412, 0.129412, 0.129412, 0.619608)
+
+[node name="Label" type="Label" parent="DeathScreen/Bg"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -383.0
+offset_top = -91.5
+offset_right = 382.0
+offset_bottom = 101.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 141
+text = "Game Over"
+
+[node name="Paddle" parent="." instance=ExtResource("1_1v3fy")]
+position = Vector2(416, 591)
+
+[node name="Ball" parent="." instance=ExtResource("2_8vwrl")]
+position = Vector2(567, 375)
+
+[node name="Walls" type="Node" parent="."]
+script = ExtResource("2_nwbum")
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top"]
+position = Vector2(576, -38)
+shape = SubResource("RectangleShape2D_1psoy")
+
+[node name="Top Ball Detector" type="Area2D" parent="Walls/Top"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top/Top Ball Detector"]
+position = Vector2(576, -38)
+shape = SubResource("RectangleShape2D_dnmpl")
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 714)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom"]
+position = Vector2(576, -37.5)
+shape = SubResource("RectangleShape2D_1psoy")
+
+[node name="Bottom Ball Detector" type="Area2D" parent="Walls/Bottom"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom/Bottom Ball Detector"]
+position = Vector2(576, -37.5)
+shape = SubResource("RectangleShape2D_dnmpl")
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2(5, 714)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+position = Vector2(576, -32.5)
+shape = SubResource("RectangleShape2D_1psoy")
+
+[node name="Left Ball Detector" type="Area2D" parent="Walls/Left"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left/Left Ball Detector"]
+position = Vector2(576, -31.75)
+shape = SubResource("RectangleShape2D_dnmpl")
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2(1213, 715)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+position = Vector2(576, -32.5)
+shape = SubResource("RectangleShape2D_1psoy")
+
+[node name="Right Ball Detector" type="Area2D" parent="Walls/Right"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right/Right Ball Detector"]
+position = Vector2(576, -32.875)
+shape = SubResource("RectangleShape2D_dnmpl")
+
+[node name="Bricks" type="Node" parent="."]
+
+[node name="Yellow Bricks" type="Node" parent="Bricks"]
+
+[node name="Yellow Brick" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(24, 343)
+
+[node name="Yellow Brick2" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(104, 343)
+
+[node name="Yellow Brick3" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(184, 343)
+
+[node name="Yellow Brick4" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(264, 343)
+
+[node name="Yellow Brick5" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(344, 343)
+
+[node name="Yellow Brick6" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(424, 343)
+
+[node name="Yellow Brick7" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(504, 343)
+
+[node name="Yellow Brick8" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(584, 343)
+
+[node name="Yellow Brick9" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(664, 343)
+
+[node name="Yellow Brick10" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(744, 343)
+
+[node name="Yellow Brick11" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(824, 343)
+
+[node name="Yellow Brick12" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(904, 343)
+
+[node name="Yellow Brick13" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(984, 343)
+
+[node name="Yellow Brick14" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(1064, 343)
+
+[node name="Yellow Brick15" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(24, 304)
+
+[node name="Yellow Brick16" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(104, 304)
+
+[node name="Yellow Brick17" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(184, 304)
+
+[node name="Yellow Brick18" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(264, 304)
+
+[node name="Yellow Brick19" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(344, 304)
+
+[node name="Yellow Brick20" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(424, 304)
+
+[node name="Yellow Brick21" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(504, 304)
+
+[node name="Yellow Brick22" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(584, 304)
+
+[node name="Yellow Brick23" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(664, 304)
+
+[node name="Yellow Brick24" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(744, 304)
+
+[node name="Yellow Brick25" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(824, 304)
+
+[node name="Yellow Brick26" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(904, 304)
+
+[node name="Yellow Brick27" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(984, 304)
+
+[node name="Yellow Brick28" parent="Bricks/Yellow Bricks" instance=ExtResource("5_dbfmt")]
+position = Vector2(1064, 304)
+
+[node name="Green Bricks" type="Node" parent="Bricks"]
+
+[node name="Green Brick" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(24, 264)
+
+[node name="Green Brick2" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(104, 264)
+
+[node name="Green Brick3" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(184, 264)
+
+[node name="Green Brick4" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(264, 264)
+
+[node name="Green Brick5" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(344, 264)
+
+[node name="Green Brick6" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(424, 264)
+
+[node name="Green Brick7" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(504, 264)
+
+[node name="Green Brick8" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(584, 264)
+
+[node name="Green Brick9" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(664, 264)
+
+[node name="Green Brick10" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(744, 264)
+
+[node name="Green Brick11" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(824, 264)
+
+[node name="Green Brick12" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(904, 264)
+
+[node name="Green Brick13" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(984, 264)
+
+[node name="Green Brick14" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(1064, 264)
+
+[node name="Green Brick15" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(24, 224)
+
+[node name="Green Brick16" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(104, 224)
+
+[node name="Green Brick17" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(184, 224)
+
+[node name="Green Brick18" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(264, 224)
+
+[node name="Green Brick19" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(344, 224)
+
+[node name="Green Brick20" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(424, 224)
+
+[node name="Green Brick21" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(504, 224)
+
+[node name="Green Brick22" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(584, 224)
+
+[node name="Green Brick23" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(664, 224)
+
+[node name="Green Brick24" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(744, 224)
+
+[node name="Green Brick25" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(824, 224)
+
+[node name="Green Brick26" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(904, 224)
+
+[node name="Green Brick27" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(984, 224)
+
+[node name="Green Brick28" parent="Bricks/Green Bricks" instance=ExtResource("7_4e6v6")]
+position = Vector2(1064, 224)
+
+[node name="Orange Bricks" type="Node" parent="Bricks"]
+
+[node name="Orange Brick" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(24, 184)
+
+[node name="Orange Brick2" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(104, 184)
+
+[node name="Orange Brick3" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(184, 184)
+
+[node name="Orange Brick4" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(264, 184)
+
+[node name="Orange Brick5" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(344, 184)
+
+[node name="Orange Brick6" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(424, 184)
+
+[node name="Orange Brick7" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(504, 184)
+
+[node name="Orange Brick8" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(584, 184)
+
+[node name="Orange Brick9" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(664, 184)
+
+[node name="Orange Brick10" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(744, 184)
+
+[node name="Orange Brick11" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(824, 184)
+
+[node name="Orange Brick12" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(904, 184)
+
+[node name="Orange Brick13" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(984, 184)
+
+[node name="Orange Brick14" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(1064, 184)
+
+[node name="Orange Brick15" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(24, 144)
+
+[node name="Orange Brick16" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(104, 144)
+
+[node name="Orange Brick17" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(184, 144)
+
+[node name="Orange Brick18" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(264, 144)
+
+[node name="Orange Brick19" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(344, 144)
+
+[node name="Orange Brick20" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(424, 144)
+
+[node name="Orange Brick21" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(504, 144)
+
+[node name="Orange Brick22" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(584, 144)
+
+[node name="Orange Brick23" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(664, 144)
+
+[node name="Orange Brick24" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(744, 144)
+
+[node name="Orange Brick25" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(824, 144)
+
+[node name="Orange Brick26" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(904, 144)
+
+[node name="Orange Brick27" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(984, 144)
+
+[node name="Orange Brick28" parent="Bricks/Orange Bricks" instance=ExtResource("8_wwo1c")]
+position = Vector2(1064, 144)
+
+[node name="Red Bricks" type="Node" parent="Bricks"]
+
+[node name="Red Brick" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(24, 104)
+
+[node name="Red Brick2" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(104, 104)
+
+[node name="Red Brick3" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(184, 104)
+
+[node name="Red Brick4" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(264, 104)
+
+[node name="Red Brick5" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(344, 104)
+
+[node name="Red Brick6" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(424, 104)
+
+[node name="Red Brick7" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(504, 104)
+
+[node name="Red Brick8" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(584, 104)
+
+[node name="Red Brick9" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(664, 104)
+
+[node name="Red Brick10" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(744, 104)
+
+[node name="Red Brick11" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(824, 104)
+
+[node name="Red Brick12" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(904, 104)
+
+[node name="Red Brick13" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(984, 104)
+
+[node name="Red Brick14" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(1064, 104)
+
+[node name="Red Brick15" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(24, 63)
+
+[node name="Red Brick16" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(104, 63)
+
+[node name="Red Brick17" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(184, 63)
+
+[node name="Red Brick18" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(264, 63)
+
+[node name="Red Brick19" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(344, 63)
+
+[node name="Red Brick20" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(424, 63)
+
+[node name="Red Brick21" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(504, 63)
+
+[node name="Red Brick22" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(584, 63)
+
+[node name="Red Brick23" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(664, 63)
+
+[node name="Red Brick24" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(744, 63)
+
+[node name="Red Brick25" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(824, 63)
+
+[node name="Red Brick26" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(904, 63)
+
+[node name="Red Brick27" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(984, 63)
+
+[node name="Red Brick28" parent="Bricks/Red Bricks" instance=ExtResource("9_xyypp")]
+position = Vector2(1064, 63)
+
+[connection signal="game_over" from="UI" to="." method="_on_ui_game_over"]
+[connection signal="dead_ball" from="Walls" to="." method="_on_walls_dead_ball"]
+[connection signal="dead_ball" from="Walls" to="UI" method="_on_walls_dead_ball"]
+[connection signal="body_entered" from="Walls/Top/Top Ball Detector" to="Walls" method="_on_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Top/Top Ball Detector" to="Walls" method="_on_top_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Bottom/Bottom Ball Detector" to="Walls" method="_on_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Bottom/Bottom Ball Detector" to="Walls" method="_on_bottom_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Left/Left Ball Detector" to="Walls" method="_on_left_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Right/Right Ball Detector" to="Paddle" method="_on_right_ball_detector_body_entered"]
+[connection signal="body_entered" from="Walls/Right/Right Ball Detector" to="Walls" method="_on_right_ball_detector_body_entered"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick2" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick3" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick4" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick5" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick6" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick7" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick8" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick9" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick10" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick11" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick12" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick13" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick14" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick15" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick16" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick17" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick18" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick19" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick20" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick21" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick22" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick23" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick24" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick25" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick26" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick27" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Green Bricks/Green Brick28" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick2" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick3" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick4" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick5" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick6" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick7" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick8" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick9" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick10" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick11" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick12" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick13" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick14" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick15" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick16" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick17" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick18" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick19" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick20" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick21" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick22" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick23" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick24" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick25" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick26" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick27" to="UI" method="_on_brick_hit"]
+[connection signal="brick_hit" from="Bricks/Orange Bricks/Orange Brick28" to="UI" method="_on_brick_hit"]
